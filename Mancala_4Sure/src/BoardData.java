@@ -2,7 +2,7 @@ import java.util.*;
 
 import javax.swing.event.InternalFrameEvent;
 
-public class Board {
+public class BoardData {
     final int INITIAL_MARBLES = 4;
     final int BOARD_LENGTH = 7;
     private ArrayList<ArrayList<Integer>> board;
@@ -12,7 +12,7 @@ public class Board {
     /**
      * Constructor generates a default board
      */
-    public Board(){
+    public BoardData(){
         ArrayList<Integer> p1 = new ArrayList<Integer>();
         for (int index = 0; index < BOARD_LENGTH-1; index++) {
             p1.add(INITIAL_MARBLES);
