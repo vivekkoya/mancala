@@ -1,4 +1,4 @@
-# mancala
+# Mancala
 A mancala application with a graphical interface.
 
 Welcome Page:
