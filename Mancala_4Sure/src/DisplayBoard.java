@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.io.IOException;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 public class DisplayBoard {
@@ -70,7 +71,7 @@ public class DisplayBoard {
 		gbc_rightouter.gridy = 0;
 		gbc_rightouter.gridheight = 2;
 		gbc_rightouter.weighty = 2;
-//				"file:///home/surikoya/Documents/Fall%202022/classfiles/Eclipse-Workspace/Mancala/src/marble.jpeg");
+		GridBagConstraints gbc_innertop = new GridBagConstraints(), gbc_innerbottom = new GridBagConstraints();
 		Pit[] gpc_top = new Pit[6], gpc_bottom = new Pit[6];
 		for (int i = 0; i < 8; i++) {
 //			JPanel panel = new JPanel();
@@ -90,21 +91,20 @@ public class DisplayBoard {
 			} else {
 				// Set constraints to gbc_inner
 				// panel.add(new JButton("Inner Pit"));
-				GridBagConstraints gbc_innertop = new GridBagConstraints();
+//				GridBagConstraints gbc_innertop = new GridBagConstraints();
 				gbc_innertop.gridx = i;
 				gbc_innertop.gridy = 0;
 				gbc_innertop.insets = new Insets(0, 5, 0, 5);
 				gbc_innertop.gridheight = 1;
 				gbc_innertop.weighty = 1;
 				// top pits
-
 				gpc_top[i - 1] = new Pit();
 //				Pit jButtonTop = new Pit();
 				gpc_top[i - 1].setMarbles(4);
 				frame.getContentPane().add(gpc_top[i - 1], gbc_innertop);
 				gpc_bottom[i - 1] = new Pit();
 				gpc_bottom[i - 1].setMarbles(4);
-				GridBagConstraints gbc_innerbottom = new GridBagConstraints();
+//				GridBagConstraints gbc_innerbottom = new GridBagConstraints();
 				gbc_innerbottom.gridx = i;
 				gbc_innerbottom.gridy = 1;
 				gbc_innerbottom.insets = new Insets(0, 5, 0, 5);
@@ -115,6 +115,14 @@ public class DisplayBoard {
 				frame.getContentPane().add(gpc_bottom[i - 1], gbc_innerbottom);
 			}
 		}
+		gbc_innerbottom.fill = GridBagConstraints.HORIZONTAL;
+		gbc_innerbottom.gridx = 0;
+		gbc_innerbottom.gridy = 2;
+		gbc_innertop.insets = new Insets(0, 2, 0, 2);
+		gbc_innerbottom.gridheight = 1;
+		gbc_innerbottom.weighty = 1;
+		JButton reset = new JButton("undo");
+		frame.getContentPane().add(reset, gbc_innerbottom);
 
 //		GridBagConstraints gbc_panel = new GridBagConstraints();
 //		gbc_panel.fill = GridBagConstraints.HORIZONTAL;

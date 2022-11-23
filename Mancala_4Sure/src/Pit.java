@@ -29,10 +29,6 @@ public class Pit extends JButton {
 	 * @throws IOException
 	 */
 	public Pit() throws IOException {
-//		URL file = new URL("file:///home/surikoya/Downloads/shadedcircle.jpg");
-//		Image img = ImageIO.read(file);
-//		ImageIcon pitImage = new ImageIcon(img);
-//		setIcon(pitImage);
 
 //		setBackground(new Color(Color.TRANSLUCENT));
 		setPreferredSize(new Dimension(200, 200));
