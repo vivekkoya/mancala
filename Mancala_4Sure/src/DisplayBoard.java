@@ -1,14 +1,13 @@
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.io.IOException;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 
 public class DisplayBoard {
-
 	private JFrame frame;
 
 	private void show() {
@@ -72,18 +71,22 @@ public class DisplayBoard {
 		gbc_rightouter.gridheight = 2;
 		gbc_rightouter.weighty = 2;
 //				"file:///home/surikoya/Documents/Fall%202022/classfiles/Eclipse-Workspace/Mancala/src/marble.jpeg");
-
+		Pit[] gpc_top = new Pit[6], gpc_bottom = new Pit[6];
 		for (int i = 0; i < 8; i++) {
 //			JPanel panel = new JPanel();
 //			panel.setBackground(UIManager.getColor("CheckBoxMenuItem.acceleratorForeground"));
 			if (i == 0) {
 				// Set constraints to gbc_leftouter
 //				panel.add(new JButton("Left holder"));
-				frame.getContentPane().add(new JButton("Left holder"), gbc_leftouter);
+				Pit lh = new Pit("Left holder");
+				lh.setPreferredSize(new Dimension(250, 400));
+				frame.getContentPane().add(lh, gbc_leftouter);
 			} else if (i == 7) {
 				// Set constraints to gbc_leftouter
 //				panel.add(new JButton("Right holder"));
-				frame.getContentPane().add(new JButton("Right holder"), gbc_rightouter);
+				Pit rh = new Pit("Right holder");
+				rh.setPreferredSize(new Dimension(250, 400));
+				frame.getContentPane().add(rh, gbc_rightouter);
 			} else {
 				// Set constraints to gbc_inner
 				// panel.add(new JButton("Inner Pit"));
@@ -93,16 +96,23 @@ public class DisplayBoard {
 				gbc_innertop.insets = new Insets(0, 5, 0, 5);
 				gbc_innertop.gridheight = 1;
 				gbc_innertop.weighty = 1;
-				JButton jButtonTop = new Pit();
-				frame.getContentPane().add(jButtonTop, gbc_innertop);
+				// top pits
+
+				gpc_top[i - 1] = new Pit();
+//				Pit jButtonTop = new Pit();
+				gpc_top[i - 1].setMarbles(4);
+				frame.getContentPane().add(gpc_top[i - 1], gbc_innertop);
+				gpc_bottom[i - 1] = new Pit();
+				gpc_bottom[i - 1].setMarbles(4);
 				GridBagConstraints gbc_innerbottom = new GridBagConstraints();
 				gbc_innerbottom.gridx = i;
 				gbc_innerbottom.gridy = 1;
 				gbc_innerbottom.insets = new Insets(0, 5, 0, 5);
 				gbc_innerbottom.gridheight = 1;
 				gbc_innerbottom.weighty = 1;
-				JButton jButtonBottom = new Pit();
-				frame.getContentPane().add(jButtonBottom, gbc_innerbottom);
+				// bottom pits
+//				JButton jButtonBottom = new Pit();
+				frame.getContentPane().add(gpc_bottom[i - 1], gbc_innerbottom);
 			}
 		}
 
