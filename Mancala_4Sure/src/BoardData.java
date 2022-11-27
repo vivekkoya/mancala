@@ -92,6 +92,7 @@ public class BoardData {
             }
             incPit(sideC, 6, steal+1);
         }
+        endGame();
     }
     public void undo(){
         isP1Turn = turnStack.pop();
