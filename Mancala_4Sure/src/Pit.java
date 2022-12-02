@@ -1,20 +1,17 @@
-package src; 
+package src;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.geom.Ellipse2D;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.border.Border;
 
@@ -44,7 +41,11 @@ public class Pit extends JButton {
 	}
 
 	void setMarbles(int num) {
+
 		numOfMarbles = num;
+		if (numOfMarbles == 0)
+			this.setEnabled(false);
+		// else goes here
 	}
 
 	void setColor(Color c) {
@@ -84,7 +85,6 @@ public class Pit extends JButton {
 			e.printStackTrace();
 		}
 	}
-
 
 	private static class RoundedBorder implements Border {
 

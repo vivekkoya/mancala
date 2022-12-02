@@ -1,4 +1,6 @@
-package src; 
+package src;
+
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
@@ -7,7 +9,9 @@ import java.awt.Insets;
 import java.io.IOException;
 
 import javax.swing.JButton;
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 public class DisplayBoard {
 
@@ -137,12 +141,12 @@ public class DisplayBoard {
 		gbc_innerbottom.gridheight = 1;
 		gbc_innerbottom.weighty = 1;
 		JButton reset = new JButton("undo");
-		reset.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// trigger undo logic in BoardData
-
-			}
-		});
+//		reset.addActionListener((ActionListener) new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				// trigger undo logic in BoardData
+//
+//			}
+//		});
 		// reset.addActionListener(new actionListener());
 		frame.getContentPane().add(reset, gbc_innerbottom);
 
