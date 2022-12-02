@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -18,111 +19,117 @@ import javax.swing.JButton;
 import javax.swing.border.Border;
 
 public class Pit extends JButton {
-	private static final long serialVersionUID = 1L;
-	ArrayList<Ellipse2D.Double> marbles = new ArrayList<>();
-	int numOfMarbles = 0;
-	private int oldMarbleCount = 0;
 
-	/**
-	 * Create the panel.
-	 * 
-	 * @throws IOException
-	 */
-	public Pit() throws IOException {
+    private static final long serialVersionUID = 1L;
+    ArrayList<Ellipse2D.Double> marbles = new ArrayList<>();
+    int numOfMarbles = 0;
+    private int oldMarbleCount = 0;
 
-//		setBackground(new Color(Color.TRANSLUCENT));
-		setPreferredSize(new Dimension(200, 200));
-		setBorder(new RoundedBorder(37));
-		setOpaque(true);
-	}
+    /**
+     * Create the panel.
+     *
+     * @throws IOException
+     */
+    public Pit() throws IOException {
 
-	public Pit(String string) {
-		super(string);
-	}
+        // setBackground(new Color(Color.TRANSLUCENT));
+        setPreferredSize(new Dimension(200, 200));
+        setBorder(new RoundedBorder(37));
+        setOpaque(true);
+    }
 
-	void setMarbles(int num) {
-		numOfMarbles = num;
-//		Point p = get
-//		Ellipse2D.Double marble = new Ellipse2D.Double(p.getX(), p.getY(), 34.22, 34.22);
-//		marbles.add(marble);
-//		marbles.clear();
-//		Random location = new Random();
-//		for (int i = 0; i < numOfMarbles; ++i) {
-//			double x = location.nextDouble(0, getWidth());
-////		Random color = new Random();
-//			double y = location.nextDouble(0, getHeight());
-////		g2.setColor(new Color(color.nextInt(0, 240), color.nextInt(0, 240), color.nextInt(0, 240)));
-//			Ellipse2D.Double marble = new Ellipse2D.Double(x, y, 20, 20);
-//			marbles.add(marble);
-//		}
-	}
+    public Pit(String string) {
+        super(string);
+    }
 
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D) g;
-		URL file;
-		try {
-			file = new URL(
-					"file:///home/surikoya/Documents/Fall%202022/classfiles/Eclipse-Workspace/Mancala/src/marble-big.jpg");
-			Image img = ImageIO.read(file);
-			int w = img.getWidth(null);
-			int h = img.getHeight(null);
-			BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-//			g.drawImage(img, 0, 0, null);
-//			g.drawImage(img, 40, 0, null);
-			g2.setColor(Color.blue);
-			Point p = getLocation();
-			Random location = new Random();
+    void setMarbles(int num) {
+        numOfMarbles = num;
+        // Point p = get
+        // Ellipse2D.Double marble = new Ellipse2D.Double(p.getX(), p.getY(), 34.22,
+        // 34.22);
+        // marbles.add(marble);
+        // marbles.clear();
+        // Random location = new Random();
+        // for (int i = 0; i < numOfMarbles; ++i) {
+        // double x = location.nextDouble(0, getWidth());
+        //// Random color = new Random();
+        // double y = location.nextDouble(0, getHeight());
+        //// g2.setColor(new Color(color.nextInt(0, 240), color.nextInt(0, 240),
+        // color.nextInt(0, 240)));
+        // Ellipse2D.Double marble = new Ellipse2D.Double(x, y, 20, 20);
+        // marbles.add(marble);
+        // }
+    }
 
-//			g2.setColor(new Color(color.nextInt(0, 240), color.nextInt(0, 240), color.nextInt(0, 240)));
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+        URL file;
+        try {
+            // file = new URL(
+            // "file:///home/surikoya/Documents/Fall%202022/classfiles/Eclipse-Workspace/Mancala/src/marble-big.jpg");
+            // Image img = ImageIO.read(file);
+            // int w = img.getWidth(null);
+            // int h = img.getHeight(null);
+            // BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            // g.drawImage(img, 0, 0, null);
+            // g.drawImage(img, 40, 0, null);
+            g2.setColor(Color.blue);
+            Point p = getLocation();
+            Random location = new Random();
 
-//			marbles.add(marble);
-//			marbles.clear();
-			if (oldMarbleCount != numOfMarbles)
-				for (int i = oldMarbleCount; i < numOfMarbles; ++i) {
-					double x = location.nextDouble(25, getWidth() - 25);
-					Random color = new Random();
-					double y = location.nextDouble(25, getHeight() - 25);
-					Ellipse2D.Double marble = new Ellipse2D.Double(x, y, 20, 20);
-					marbles.add(marble);
-				}
-//			repaint();
-			for (Ellipse2D.Double c : marbles)
-				g2.fill(c);
-			g2.setColor(Color.black);
-			oldMarbleCount = numOfMarbles;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-//	public void paintIcon(Component c, Graphics g, int x, int y) throws IOException {
-//		Graphics2D g2d = (Graphics2D) g.create();
-//		URL file = new URL("file:///home/surikoya/Downloads/shadedcircle.jpg");
-//		Image img = ImageIO.read(file);
-//		g2d.drawImage(img, x, y, c);
-//		repaint();
-////		g2d.dispose();
-//	}
+            // g2.setColor(new Color(color.nextInt(0, 240), color.nextInt(0, 240),
+            // color.nextInt(0, 240)));
+            // marbles.add(marble);
+            // marbles.clear();
+            if (oldMarbleCount != numOfMarbles) {
+                for (int i = oldMarbleCount; i < numOfMarbles; ++i) {
+                    double x = location.nextInt(getWidth());
+                    Random color = new Random();
+                    double y = location.nextInt(getHeight());
+                    Ellipse2D.Double marble = new Ellipse2D.Double(x, y, 20, 20);
+                    marbles.add(marble);
+                }
+            }
+            // repaint();
+            for (Ellipse2D.Double c : marbles) {
+                g2.fill(c);
+            }
+            g2.setColor(Color.black);
+            oldMarbleCount = numOfMarbles;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    // public void paintIcon(Component c, Graphics g, int x, int y) throws
+    // IOException {
+    // Graphics2D g2d = (Graphics2D) g.create();
+    // URL file = new URL("file:///home/surikoya/Downloads/shadedcircle.jpg");
+    // Image img = ImageIO.read(file);
+    // g2d.drawImage(img, x, y, c);
+    // repaint();
+    //// g2d.dispose();
+    // }
 
-	private static class RoundedBorder implements Border {
+    private static class RoundedBorder implements Border {
 
-		private int radius;
+        private int radius;
 
-		RoundedBorder(int radius) {
-			this.radius = radius;
-		}
+        RoundedBorder(int radius) {
+            this.radius = radius;
+        }
 
-		public Insets getBorderInsets(Component c) {
-			return new Insets(this.radius + 1, this.radius + 1, this.radius + 2, this.radius);
-		}
+        public Insets getBorderInsets(Component c) {
+            return new Insets(this.radius + 1, this.radius + 1, this.radius + 2, this.radius);
+        }
 
-		public boolean isBorderOpaque() {
-			return true;
-		}
+        public boolean isBorderOpaque() {
+            return true;
+        }
 
-		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-			g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
-		}
-	}
+        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+            g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
+        }
+    }
 
 }
