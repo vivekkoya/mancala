@@ -28,7 +28,7 @@ public class Pit extends JButton {
 	 *
 	 * @throws IOException
 	 */
-	public Pit() throws IOException {
+	public Pit() {
 
 		// setBackground(new Color(Color.TRANSLUCENT));
 		setPreferredSize(new Dimension(200, 200));
@@ -41,11 +41,18 @@ public class Pit extends JButton {
 	}
 
 	void setMarbles(int num) {
+		if (numOfMarbles != num) {
+			numOfMarbles = num;
+			if (numOfMarbles == 0)
+				this.setEnabled(false);
 
-		numOfMarbles = num;
-		if (numOfMarbles == 0)
-			this.setEnabled(false);
-		// else goes here
+			// else goes here
+			else {
+				this.setEnabled(true);
+				this.repaint();
+			}
+		}
+
 	}
 
 	void setColor(Color c) {

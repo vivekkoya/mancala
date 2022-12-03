@@ -6,16 +6,20 @@ import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class DisplayBoard {
+public class DisplayBoard implements ChangeListener {
 
 	private JFrame frame;
+	private Pit[] gpc_top, gpc_bottom;
+	private Pit lh, rh;
+	private final BoardData data;
 
 	private void show() {
 		this.frame.pack();
@@ -28,12 +32,10 @@ public class DisplayBoard {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					DisplayBoard window = new DisplayBoard();
-					window.show();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+
+				DisplayBoard window = new DisplayBoard();
+				window.show();
+
 			}
 		});
 	}
@@ -42,20 +44,29 @@ public class DisplayBoard {
 	 * Create the application.
 	 */
 	public DisplayBoard() {
+		data = new BoardData(4);
+		gpc_top = new Pit[6];
+		gpc_bottom = new Pit[6];
+		lh = new Pit();
+		rh = new Pit();
+		frame = new JFrame();
+		data.addListener(this);
+		initialize();
 
-		try {
-			initialize();
-		} catch (IOException e) {
-			System.err.println("Failed to initialize becaus eof IOException");
-			e.printStackTrace();
-		}
+	}
+
+	public Pit[] getBottom() {
+		return this.gpc_bottom;
+	}
+
+	public Pit[] getTop() {
+		return this.gpc_top;
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() throws IOException {
-		frame = new JFrame();
+	private void initialize() {
 		// frame.setBounds(100, 100, 450, 300);
 		// frame.se`
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,61 +89,54 @@ public class DisplayBoard {
 		gbc_rightouter.gridheight = 2;
 		gbc_rightouter.weighty = 2;
 		GridBagConstraints gbc_innertop = new GridBagConstraints(), gbc_innerbottom = new GridBagConstraints();
-		Pit[] gpc_top = new Pit[6], gpc_bottom = new Pit[6];
-		Pit lh = new Pit(), rh = lh;
+		// Set constraints to gbc_leftouter
+		// panel.add(new JButton("Left holder"));
+		lh = new Pit("Left holder");
+		lh.setPreferredSize(new Dimension(250, 400));
+		frame.getContentPane().add(lh, gbc_leftouter);
 
-		for (int i = 0; i < 8; i++) {
+		for (int i = 1; i < 7; i++) {
 			JPanel panel = new JPanel();
 			panel.setBackground(UIManager.getColor("CheckBoxMenuItem.acceleratorForeground"));
-			if (i == 0) {
-				// Set constraints to gbc_leftouter
-				// panel.add(new JButton("Left holder"));
-				lh = new Pit("Left holder");
-				lh.setPreferredSize(new Dimension(250, 400));
-				frame.getContentPane().add(lh, gbc_leftouter);
-			} else if (i == 7) {
-				// Set constraints to gbc_leftouter
-				// panel.add(new JButton("Right holder"));
-				rh = new Pit("Right holder");
-				rh.setPreferredSize(new Dimension(250, 400));
-				frame.getContentPane().add(rh, gbc_rightouter);
-			} else {
-				// Set constraints to gbc_inner
-				// panel.add(new JButton("Inner Pit"));
-				// GridBagConstraints gbc_innertop = new GridBagConstraints();
-				gbc_innertop.gridx = i;
-				gbc_innertop.gridy = 0;
-				gbc_innertop.insets = new Insets(0, 5, 0, 5);
-				gbc_innertop.gridheight = 1;
-				gbc_innertop.weighty = 1;
-				// top pits
-				gpc_top[i - 1] = new Pit();
-				// Pit jButtonTop = new Pit();
-				gpc_top[i - 1].setMarbles(4);
-				frame.getContentPane().add(gpc_top[i - 1], gbc_innertop);
-				gpc_bottom[i - 1] = new Pit();
-				gpc_bottom[i - 1].setMarbles(4);
-				// GridBagConstraints gbc_innerbottom = new GridBagConstraints();
-				gbc_innerbottom.gridx = i;
-				gbc_innerbottom.gridy = 1;
-				gbc_innerbottom.insets = new Insets(0, 5, 0, 5);
-				gbc_innerbottom.gridheight = 1;
-				gbc_innerbottom.weighty = 1;
-				// bottom pits
-				// JButton jButtonBottom = new Pit();
-				frame.getContentPane().add(gpc_bottom[i - 1], gbc_innerbottom);
-			}
+			gbc_innertop.gridx = i;
+			gbc_innertop.gridy = 0;
+			gbc_innertop.insets = new Insets(0, 5, 0, 5);
+			gbc_innertop.gridheight = 1;
+			gbc_innertop.weighty = 1;
+			// top pits
+			int y = i - 1;
+			gpc_top[y] = new Pit();
+			gpc_top[y].addActionListener((e) -> {
+				data.turn(5 - y);
+			});
+			frame.getContentPane().add(gpc_top[i - 1], gbc_innertop);
+			gpc_bottom[y] = new Pit();
+			gpc_bottom[y].addActionListener((e) -> {
+				data.turn(y);
+			});
+			gbc_innerbottom.gridx = i;
+			gbc_innerbottom.gridy = 1;
+			gbc_innerbottom.insets = new Insets(0, 5, 0, 5);
+			gbc_innerbottom.gridheight = 1;
+			gbc_innerbottom.weighty = 1;
+			// bottom pits
+			frame.getContentPane().add(gpc_bottom[i - 1], gbc_innerbottom);
 		}
+		// Set constraints to gbc_leftouter
+		// panel.add(new JButton("Right holder"));
+		rh = new Pit("Right holder");
+		rh.setPreferredSize(new Dimension(250, 400));
+		frame.getContentPane().add(rh, gbc_rightouter);
+		updateMarbles();
+		disableButtons();
 		/**
 		 * @see SetColor in progress
 		 */
 		lh.setEnabled(false);
-		lh.setMarbles(2);
 //		lh.setBorderPainted(true);
 		lh.setColor(new Color(255, 0, 0));
 
 		rh.setEnabled(false);
-		rh.setMarbles(2);
 
 		gbc_innerbottom.fill = GridBagConstraints.HORIZONTAL;
 		gbc_innerbottom.gridx = 0;
@@ -156,6 +160,50 @@ public class DisplayBoard {
 		// gbc_panel.gridy = 0;
 		// frame.getContentPane().add(panel, gbc_panel);
 	}
+
+//	public void populate() {
+//		for (Pit i : gpc_bottom) {
+//			i.setMarbles(4);
+//		}
+//
+//	}
+	/**
+	 * @See link count of marbles from data to view
+	 */
+	void updateMarbles() {
+		for (int i = 0; i < 6; i++) {
+			// gpc_bottom[i].setMarbles(4);
+			gpc_bottom[i].setMarbles(data.getBoard().get(0).get(i));
+			// gpc_top[i].setMarbles(4);
+			gpc_top[i].setMarbles(data.getBoard().get(1).get(5 - i));
+		}
+	}
+
+	public void disableButtons() {
+
+		if (data.getTurn() == true) {
+			for (int i = 0; i < gpc_top.length; i++) {
+				System.out.println(gpc_top[i] + "top");
+				gpc_top[i].setEnabled(false);
+				gpc_bottom[i].setEnabled(true);
+				System.out.println("REACHED");
+			}
+		} else if (data.getTurn() == false) {
+			for (int i = 0; i < gpc_bottom.length; i++) {
+				gpc_bottom[i].setEnabled(false);
+				gpc_top[i].setEnabled(true);
+				System.out.println("REACHED");
+			}
+		}
+
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent arg0) {
+		disableButtons();
+		this.updateMarbles();
+	}
+
 	// lh.setMarbles(2);
 
 }
