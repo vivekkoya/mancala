@@ -16,24 +16,29 @@ import javax.swing.JButton;
 import javax.swing.border.Border;
 
 public class Pit extends JButton {
-	Color pitcolor = Color.black;
+	Color pitcolor;
 
 	private static final long serialVersionUID = 1L;
 	ArrayList<Ellipse2D.Double> marbles = new ArrayList<>();
 	int numOfMarbles = 0;
 	private int oldMarbleCount = 0;
 
+	private BoardStrategy strat;
+
 	/**
 	 * Create the panel.
 	 *
 	 * @throws IOException
 	 */
-	public Pit() {
+	public Pit(BoardStrategy s) {
 
-		// setBackground(new Color(Color.TRANSLUCENT));
+		setBackground(new Color(Color.TRANSLUCENT));
 		setPreferredSize(new Dimension(200, 200));
 		setBorder(new RoundedBorder(37));
 		setOpaque(true);
+//		setColor(pitcolor);
+		setBackground(pitcolor);
+		strat = s;
 	}
 
 	public Pit(String string) {
@@ -43,50 +48,50 @@ public class Pit extends JButton {
 	void setMarbles(int num) {
 		if (numOfMarbles != num) {
 			numOfMarbles = num;
-			if (numOfMarbles == 0)
-				this.setEnabled(false);
-
-			// else goes here
-			else {
-				this.setEnabled(true);
-				this.repaint();
+			this.repaint();
+			if (numOfMarbles == 0) {
+				marbles.clear();
 			}
 		}
+		this.repaint();
 
 	}
 
-	void setColor(Color c) {
+	public void setColor(Color c) {
 		pitcolor = c;
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-
+//		g.set
 		try {
 
-			g2.setColor(Color.blue);
+//			g2.setColor(Color.blue);
+			g2.setColor(pitcolor);
 			Point p = getLocation();
 			Random location = new Random();
 
-			// g2.setColor(new Color(color.nextInt(0, 240), color.nextInt(0, 240),
+//			 g2.setColor(new Color(color.nextInt(0, 240), color.nextInt(0, 240),
 			// color.nextInt(0, 240)));
 			// marbles.add(marble);
 			// marbles.clear();
+//			final int marbleCount = marbles.size();
+
 			if (oldMarbleCount != numOfMarbles) {
 				for (int i = oldMarbleCount; i < numOfMarbles; ++i) {
 					double x = location.nextInt((getWidth() * 6) / 7);
-					// Random color = new Random();
+//					// Random color = new Random();
 					double y = location.nextInt((getHeight() * 6) / 7);
-					Ellipse2D.Double marble = new Ellipse2D.Double(x, y, 20, 20);
-					marbles.add(marble);
+//					if (this.strat != null)
+					marbles.add(strat.paintMarble(x, y));
 				}
 			}
 			// repaint();
 			for (Ellipse2D.Double c : marbles) {
 				g2.fill(c);
 			}
-			g2.setColor(pitcolor);
+
 			oldMarbleCount = numOfMarbles;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -111,7 +116,28 @@ public class Pit extends JButton {
 
 		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
 			g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
+//			g.setColor(Pit.pitcolor);
 		}
 	}
+
+//	@Override
+//	public void paintMarble() {
+//		// TODO Auto-generated method stub
+//		Random location = new Random();
+//
+//		if (oldMarbleCount != numOfMarbles) {
+//			for (int i = oldMarbleCount; i < numOfMarbles; ++i) {
+//				double x = location.nextInt((getWidth() * 6) / 7);
+//				// Random color = new Random();
+//				double y = location.nextInt((getHeight() * 6) / 7);
+//				Ellipse2D.Double marble = new Ellipse2D.Double(x, y, 20, 20);
+//				marbles.add(marble);
+//			}
+//		}
+//
+//	}
+
+//	return marble;
+//}
 
 }

@@ -25,7 +25,7 @@ public class BoardData {
 	/**
 	 * Constructor generates a default board
 	 */
-	public BoardData(int initMarbles) {
+	public BoardData(final int initMarbles) {
 		initialMarbles = initMarbles;
 		ArrayList<Integer> p1 = new ArrayList<Integer>();
 		for (int index = 0; index < BOARD_LENGTH - 1; index++) {
@@ -48,10 +48,15 @@ public class BoardData {
 	}
 
 	public ArrayList<ArrayList<Integer>> getBoard() {
-		return board;
+		ArrayList<ArrayList<Integer>> temp = new ArrayList<ArrayList<Integer>>();
+		ArrayList<Integer> p1 = new ArrayList<Integer>(board.get(0));
+		ArrayList<Integer> p2 = new ArrayList<Integer>(board.get(1));
+		temp.add(p1);
+		temp.add(p2);
+		return temp;
 	}
 
-	public int getPit(int side, int pit) {
+	public int getPit(final int side, final int pit) {
 		return board.get(side % 2).get(pit);
 	}
 
@@ -67,9 +72,10 @@ public class BoardData {
 	public void turn(int pit) {
 		if (isP1Turn != isP1PrevTurn) {
 			boardStack.clear();
+			numUndos = 0;
 		}
 		consecUndo = false;
-		boardStack.add(board);
+		boardStack.add(getBoard());
 		isP1PrevTurn = isP1Turn;
 		// keeps track of the side
 		int initSide;
@@ -104,8 +110,8 @@ public class BoardData {
 		if (j == 0 && ((side % 2 == 0) == isP1Turn)) {
 			isP1Turn = !isP1Turn;
 		} else if ((initSide == side % 2) && getPit(side, j - 1) == 1) {
-			int steal = getPit(side + 1, 6 - j + 1);
-			board.get((side + 1) % 2).set(6 - j + 1, 0);
+			int steal = getPit(initSide + 1, BOARD_LENGTH - j - 1);
+			board.get((side + 1) % 2).set(BOARD_LENGTH - j - 1, 0);
 			board.get(side % 2).set(j - 1, 0);
 			int sideC;
 			if (isP1Turn) {
@@ -123,12 +129,20 @@ public class BoardData {
 	 * undos a turn
 	 */
 	public void undo() {
-		board = boardStack.pop();
+		board = boardStack.pollLast();
+		System.out.println(boardStack.size());
 		isP1Turn = isP1PrevTurn;
+		change();
 	}
 
+	/**
+	 * checks if undo can be made given only 3 undos per turn and no consecutive
+	 * undos
+	 * 
+	 * @See undo needs showButton implemented properly
+	 */
 	public boolean canUndo() {
-		if (!(numUndos >= 3) && boardStack.size() > 0 && !consecUndo) {
+		if ((numUndos < 3) && boardStack.size() > 0 && !consecUndo) {
 			numUndos++;
 			consecUndo = true;
 			return true;
@@ -166,7 +180,7 @@ public class BoardData {
 		}
 	}
 
-	public void addListener(ChangeListener l) {
+	public void addListener(final ChangeListener l) {
 		listeners.add(l);
 	}
 
